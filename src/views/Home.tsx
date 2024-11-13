@@ -9,6 +9,7 @@ import {
     CardDescription,
     CardContent,
     GetSunriseAndSunset,
+    GetWavesWidget,
 } from "@/components";
 
 function HomePage() {
@@ -103,30 +104,56 @@ function HomePage() {
                                             <GetSunriseAndSunset
                                                 imgUrl={"src/assets/icons/1000n.svg"}
                                                 label={"Sunset"}
-                                                time={"05:34 APM"}
+                                                time={"05:34 PM"}
                                             />
-                                            {/* <div className="w-full flex items-center gap-2">
-                                                <img src="src/assets/icons/1000d.svg" alt="" className="h-14" />
-                                                <div className="flex flex-col">
-                                                    <p className="text-sm text-muted-foreground">Sunrise</p>
-                                                    <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
-                                                        07:00 AM
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="w-full flex items-center gap-2">
-                                                <img src="src/assets/icons/1000n.svg" alt="" className="h-14" />
-                                                <div className="flex flex-col">
-                                                    <p className="text-sm text-muted-foreground">Sunset</p>
-                                                    <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
-                                                        05:34 PM
-                                                    </p>
-                                                </div>
-                                            </div> */}
                                         </CardContent>
                                     </Card>
                                 </div>
-                                <div></div>
+                                <div className="w-full grid grid-cols-4 gap-5">
+                                    <GetWavesWidget
+                                        labelKo={"습도"}
+                                        labelEn={"Humidity"}
+                                        imgUrl={"src/assets/icons/Humidity.svg"}
+                                        value={80}
+                                        unit={"%"}
+                                    />
+                                    <GetWavesWidget
+                                        labelKo={"기압"}
+                                        labelEn={"Pressure"}
+                                        imgUrl={"src/assets/icons/Wind.svg"}
+                                        value={1024}
+                                        unit={"hPa"}
+                                    />
+                                    <GetWavesWidget
+                                        labelKo={"가시거리"}
+                                        labelEn={"Visibility"}
+                                        imgUrl={"src/assets/icons/Fog.svg"}
+                                        value={10}
+                                        unit={"km"}
+                                    />
+                                    <GetWavesWidget
+                                        labelKo={"체감온도"}
+                                        labelEn={"Feels Like"}
+                                        imgUrl={"src/assets/icons/Hot.svg"}
+                                        value={19}
+                                        unit={"&#8451;"}
+                                    />
+                                    {/* <Card className="w-full h-fit bg-neutral-50">
+                                        <CardHeader>
+                                            <CardDescription className="font-semibold text-neutral-700">
+                                                습도
+                                                <span className="text-neutral-400 font-normal ml-1">Humidity</span>
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="flex items-center justify-between">
+                                            <img src="src/assets/icons/Humidity.svg" alt="" className="h-10 w-10" />
+                                            <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
+                                                80
+                                                <span className="text-lg ml-1">%</span>
+                                            </p>
+                                        </CardContent>
+                                    </Card> */}
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
