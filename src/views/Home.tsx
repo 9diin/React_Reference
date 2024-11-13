@@ -16,17 +16,17 @@ function HomePage() {
         <div className="page">
             <div className="page__container">
                 <Header />
-                <div className="w-full h-full flex flex-col items-center justify-start py-6 px-6 bg-black">
+                <div className="w-full h-full flex flex-col items-center justify-start pb-6 px-6 gap-5">
                     {/* 상단 3개의 위젯 */}
-                    <div className="w-full flex items-center gap-6">
+                    <div className="w-full flex items-center gap-5">
                         <GetTodayWidget />
                         <GetHourlyWidget />
                         <GetKakaoMapWidget />
                     </div>
                     {/* 하단 2개의 위젯 */}
-                    <div className="w-full flex items-center gap-6">
+                    <div className="w-full flex items-center gap-5">
                         <GetTodayHighlightsWidget />
-                        <Card className="w-1/4">
+                        <Card className="w-1/4 h-full">
                             <CardHeader>
                                 <CardTitle>7 Days</CardTitle>
                                 <CardDescription>이번주 날씨를 조회하고 있습니다.</CardDescription>

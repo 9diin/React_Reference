@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 
 function GetHourlyWidget() {
     return (
-        <Card className="flex-1 max-w-[calc(50%-48px)] h-full">
+        <Card className="flex-1 max-w-[calc(50%-40px)] h-full">
             <CardHeader>
                 <CardTitle className="text-xl">Hourly</CardTitle>
                 <CardDescription>오늘의 시간대별 날씨를 조회하고 있습니다.</CardDescription>
