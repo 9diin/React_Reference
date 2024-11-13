@@ -5,6 +5,7 @@ export { Header } from "./common/header/Header";
 export { GetTodayWidget } from "./home/GetTodayWidget";
 export { GetHourlyWidget } from "./home/GetHourlyWidget";
 export { GetKakaoMapWidget } from "./home/GetKakaoMapWidget";
+export { GetTodayHighlightsWidget } from "./home/GetTodayHighlightsWidget";
 
 /** UI 기초 컴포넌트 */
 export { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
