@@ -105,8 +105,7 @@ function HomePage() {
 
     const fetchApi = async () => {
         const API_KEY = "56442fada1144d12abf64743241411";
-        const BASE_URL = "http://api.weatherapi.com/v1";
-        //https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110
+        const BASE_URL = "https://api.weatherapi.com/v1";
 
         try {
             /** Promise 인스턴스 방법을 사용했을 땐, resolve에 해당 */
@@ -126,7 +125,7 @@ function HomePage() {
 
     const fetchTideApi = async () => {
         const API_KEY = "56442fada1144d12abf64743241411";
-        const BASE_URL = "http://api.weatherapi.com/v1";
+        const BASE_URL = "https://api.weatherapi.com/v1";
 
         try {
             const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=1&key=${API_KEY}`);
@@ -141,10 +140,10 @@ function HomePage() {
 
     const getOneWeekWeather = async () => {
         const API_KEY = "56442fada1144d12abf64743241411";
-        const BASE_URL = "http://api.weatherapi.com/v1";
+        const BASE_URL = "https://api.weatherapi.com/v1";
 
         try {
-            const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=7&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
             console.log(res);
 
             if (res.status === 200 && res.data) {
