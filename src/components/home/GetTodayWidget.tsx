@@ -1,7 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Separator } from "@/components";
 import { CalendarDays, MapPinned } from "lucide-react";
+import { Weather } from "@/types";
 
-function GetTodayWidget() {
+interface Props {
+    data: Weather;
+}
+
+function GetTodayWidget({ data }: Props) {
     return (
         <Card className="w-1/4 min-w-[25%]">
             <CardHeader>
