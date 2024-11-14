@@ -1,12 +1,10 @@
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import useKakaoLoader from "@/hooks/useKakaoLoader";
 import { Card } from "@/components";
-// import { useState } from "react";
 
 function GetKakaoMapWidget() {
     useKakaoLoader();
 
-    // const [cityName, setCityName] = useState("seoul");
     const positions = [
         {
             cityName: "seoul",
