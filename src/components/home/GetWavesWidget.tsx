@@ -5,7 +5,7 @@ interface Props {
     labelEn: string;
     imgUrl: string;
     value: number;
-    unit: string;
+    unit?: string;
 }
 
 function GetWavesWidget({ labelKo, labelEn, imgUrl, value, unit }: Props) {
@@ -21,7 +21,11 @@ function GetWavesWidget({ labelKo, labelEn, imgUrl, value, unit }: Props) {
                 <img src={imgUrl} alt="" className="h-10 w-10" />
                 <p className="poppins-medium scroll-m-20 text-3xl font-semibold tracking-tight">
                     {value}
-                    <span className="text-lg ml-1">{unit}</span>
+                    {labelKo === "체감온도" ? (
+                        <span className="text-lg ml-1">&#8451;</span>
+                    ) : (
+                        <span className="text-lg ml-1">{unit}</span>
+                    )}
                 </p>
             </CardContent>
         </Card>

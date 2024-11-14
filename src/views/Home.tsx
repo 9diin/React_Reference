@@ -6,14 +6,9 @@ import {
     GetHourlyWidget,
     GetKakaoMapWidget,
     GetTodayHighlightsWidget,
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    GetDayItem,
+    GetWeekWidget,
 } from "@/components";
-import { Weather } from "@/types";
+import { Weather, ForecastTideDay, ForecastDay } from "@/types";
 
 const defaultWeatherData: Weather = {
     current: {
@@ -60,18 +55,62 @@ const defaultWeatherData: Weather = {
     forecast: { forecastday: [] },
 };
 
+const defaultTideData: ForecastTideDay = {
+    astro: {
+        is_moon_up: 0,
+        is_sun_up: 0,
+        moon_illumination: 0,
+        moon_phase: "",
+        moonrise: "",
+        moonset: "",
+        sunrise: "",
+        sunset: "",
+    },
+    date: "",
+    date_epoch: 0,
+    day: {
+        avghumidity: 0,
+        avgtemp_c: 0,
+        avgtemp_f: 0,
+        avgvis_km: 0,
+        avgvis_miles: 0,
+        condition: { text: "", icon: "", code: 0 },
+        daily_chance_of_rain: 0,
+        daily_chance_of_snow: 0,
+        daily_will_it_rain: 0,
+        daily_will_it_snow: 0,
+        maxtemp_c: 0,
+        maxtemp_f: 0,
+        maxwind_kph: 0,
+        maxwind_mph: 0,
+        mintemp_c: 0,
+        mintemp_f: 0,
+        totalprecip_in: 0,
+        totalprecip_mm: 0,
+        totalsnow_cm: 0,
+        uv: 0,
+        tides: [
+            {
+                tide: [],
+            },
+        ],
+    },
+    hour: [],
+};
+
 function HomePage() {
-    const [weatherData, setWeatherData] = useState(defaultWeatherData);
+    const [weatherData, setWeatherData] = useState<Weather>(defaultWeatherData);
+    const [tideData, setTideData] = useState<ForecastTideDay>(defaultTideData);
+    const [oneWeekWeatherSummary, setOneWeekWeatherSummary] = useState([]);
 
     const fetchApi = async () => {
-        const API_KEY = "1c7db76ae67a4a77ace135210243110";
+        const API_KEY = "56442fada1144d12abf64743241411";
         const BASE_URL = "http://api.weatherapi.com/v1";
         //https://api.weatherapi.com/v1/current.json?q=seoul&key=1c7db76ae67a4a77ace135210243110
 
         try {
             /** Promise 인스턴스 방법을 사용했을 땐, resolve에 해당 */
             const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
-            console.log(res);
 
             if (res.status === 200) {
                 setWeatherData(res.data);
@@ -85,8 +124,50 @@ function HomePage() {
         }
     };
 
+    const fetchTideApi = async () => {
+        const API_KEY = "56442fada1144d12abf64743241411";
+        const BASE_URL = "http://api.weatherapi.com/v1";
+
+        try {
+            const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=1&key=${API_KEY}`);
+
+            if (res.status === 200 && res.data) {
+                setTideData(res.data.forecast.forecastday[0]);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getOneWeekWeather = async () => {
+        const API_KEY = "56442fada1144d12abf64743241411";
+        const BASE_URL = "http://api.weatherapi.com/v1";
+
+        try {
+            const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=7&key=${API_KEY}`);
+            console.log(res);
+
+            if (res.status === 200 && res.data) {
+                const newData = res.data.forecast.forecastday.map((item: ForecastDay) => {
+                    return {
+                        maxTemp: Math.round(item.day.maxtemp_c),
+                        minTemp: Math.round(item.day.mintemp_c),
+                        date: item.date_epoch,
+                        iconCode: item.day.condition.code,
+                        isDay: item.day.condition.icon.includes("day"),
+                    };
+                });
+                setOneWeekWeatherSummary(newData);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
         fetchApi();
+        fetchTideApi();
+        getOneWeekWeather();
     }, []);
 
     return (
@@ -102,22 +183,8 @@ function HomePage() {
                     </div>
                     {/* 하단 2개의 위젯 */}
                     <div className="w-full flex items-center gap-5">
-                        <GetTodayHighlightsWidget />
-                        <Card className="w-1/4 h-full">
-                            <CardHeader>
-                                <CardTitle>7 Days</CardTitle>
-                                <CardDescription>이번주 날씨를 조회하고 있습니다.</CardDescription>
-                            </CardHeader>
-                            <CardContent className="flex flex-col gap-1">
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                                <GetDayItem highTemp={20} lowTemp={10} />
-                            </CardContent>
-                        </Card>
+                        <GetTodayHighlightsWidget currentData={weatherData} tideData={tideData} />
+                        <GetWeekWidget data={oneWeekWeatherSummary} />
                     </div>
                 </div>
             </div>

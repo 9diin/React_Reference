@@ -7,8 +7,30 @@ import {
     GetSunriseAndSunset,
     GetWavesWidget,
 } from "@/components";
+import { ForecastTideDay, Weather } from "@/types";
 
-function GetTodayHighlightsWidget() {
+interface Props {
+    currentData: Weather;
+    tideData: ForecastTideDay;
+}
+
+function GetTodayHighlightsWidget({ currentData, tideData }: Props) {
+    if (!currentData || !tideData) {
+        return <div>데이터를 불러오는 중입니다...</div>;
+    }
+
+    // const tideTimesWithUnits = tideData.day.tides[0].tide.map((item: Tide) => {
+    //     const [date, hourString] = item.tide_time.split(" ");
+    //     const [hour] = hourString.split(":").map(Number);
+    //     const formattedUnit = hour < 12 ? "am" : "pm";
+
+    //     return {
+    //         displayTime: item.tide_time.split(" ")[1],
+    //         unit: formattedUnit,
+    //         type: item.tide_type,
+    //     };
+    // });
+
     return (
         <Card className="flex-1">
             <CardHeader>
@@ -77,12 +99,12 @@ function GetTodayHighlightsWidget() {
                             <GetSunriseAndSunset
                                 imgUrl={"src/assets/icons/1000d.svg"}
                                 label={"Sunrise"}
-                                time={"07:00 AM"}
+                                time={tideData.astro.sunrise}
                             />
                             <GetSunriseAndSunset
                                 imgUrl={"src/assets/icons/1000n.svg"}
                                 label={"Sunset"}
-                                time={"05:34 PM"}
+                                time={tideData.astro.sunset}
                             />
                         </CardContent>
                     </Card>
@@ -92,29 +114,28 @@ function GetTodayHighlightsWidget() {
                         labelKo={"습도"}
                         labelEn={"Humidity"}
                         imgUrl={"src/assets/icons/Humidity.svg"}
-                        value={80}
+                        value={currentData.current.humidity}
                         unit={"%"}
                     />
                     <GetWavesWidget
                         labelKo={"기압"}
                         labelEn={"Pressure"}
                         imgUrl={"src/assets/icons/Wind.svg"}
-                        value={1024}
+                        value={currentData.current.pressure_mb}
                         unit={"hPa"}
                     />
                     <GetWavesWidget
                         labelKo={"가시거리"}
                         labelEn={"Visibility"}
                         imgUrl={"src/assets/icons/Fog.svg"}
-                        value={10}
+                        value={currentData.current.vis_km}
                         unit={"km"}
                     />
                     <GetWavesWidget
                         labelKo={"체감온도"}
                         labelEn={"Feels Like"}
                         imgUrl={"src/assets/icons/Hot.svg"}
-                        value={19}
-                        unit={"&#8451;"}
+                        value={currentData.current.feelslike_c}
                     />
                 </div>
             </CardContent>
