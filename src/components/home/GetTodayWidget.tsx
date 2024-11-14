@@ -17,9 +17,26 @@ function GetTodayWidget({ data }: Props) {
                 <div className="w-full h-full flex flex-col">
                     <div className="flex items-center gap-4">
                         {/* 날씨 아이콘 */}
-                        <img src="src/assets/icons/1000d.svg" alt="weather-icon" className="h-16 w-16" />
+                        {/* 오리지널 icon 코드 */}
+                        {/* "//cdn.weatherapi.com/weather/64x64/night/116.png" */}
+                        {data.current.condition.icon.includes("day") ? (
+                            <img
+                                src={`src/assets/icons/${data.current.condition.code}d.svg`}
+                                alt="weather-icon"
+                                className="h-16 w-16"
+                            />
+                        ) : (
+                            <img
+                                src={`src/assets/icons/${data.current.condition.code}n.svg`}
+                                alt="weather-icon"
+                                className="h-16 w-16"
+                            />
+                        )}
                         <div className="w-full flex items-start gap-1">
-                            <span className="poppins-bold scroll-m-20 text-6xl font-extrabold tracking-tight">20</span>
+                            <span className="poppins-bold scroll-m-20 text-6xl font-extrabold tracking-tight">
+                                {/* 자바스크립트 Math 함수 참고해보기 */}
+                                {Math.round(data.current.temp_c)}
+                            </span>
                             <span className="text-4xl font-extrabold">&#8451;</span>
                         </div>
                     </div>
@@ -28,12 +45,14 @@ function GetTodayWidget({ data }: Props) {
                         {/* 캘린더 날짜 표시 영역 */}
                         <div className="flex items-center justify-start gap-2">
                             <CalendarDays className="h-4 w-4" />
-                            <p className="leading-6">2024-11-13</p>
+                            <p className="leading-6">{data.location.localtime.split(" ")[0]}</p>
                         </div>
                         {/* 위치 표시 영역 */}
                         <div className="flex items-center justify-start gap-2">
                             <MapPinned className="h-4 w-4" />
-                            <p className="leading-6">Seoul South Korea</p>
+                            <p className="leading-6">
+                                {data.location.name}&middot;{data.location.country}
+                            </p>
                         </div>
                     </div>
                 </div>

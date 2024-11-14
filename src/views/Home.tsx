@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {
     Header,
@@ -84,7 +84,10 @@ function HomePage() {
             console.log("fetchApi 호출은 되었습니다.");
         }
     };
-    fetchApi();
+
+    useEffect(() => {
+        fetchApi();
+    }, []);
 
     return (
         <div className="page">
@@ -94,7 +97,7 @@ function HomePage() {
                     {/* 상단 3개의 위젯 */}
                     <div className="w-full flex items-center gap-5">
                         <GetTodayWidget data={weatherData} />
-                        <GetHourlyWidget />
+                        <GetHourlyWidget data={weatherData.forecast.forecastday[0]} />
                         <GetKakaoMapWidget />
                     </div>
                     {/* 하단 2개의 위젯 */}
