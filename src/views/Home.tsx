@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { cityNameAtom } from "@/stores";
+
 import axios from "axios";
 import {
     Header,
@@ -99,6 +102,8 @@ const defaultTideData: ForecastTideDay = {
 };
 
 function HomePage() {
+    const [cityName, setCityName] = useAtom(cityNameAtom);
+
     const [weatherData, setWeatherData] = useState<Weather>(defaultWeatherData);
     const [tideData, setTideData] = useState<ForecastTideDay>(defaultTideData);
     const [oneWeekWeatherSummary, setOneWeekWeatherSummary] = useState([]);
@@ -109,7 +114,7 @@ function HomePage() {
 
         try {
             /** Promise 인스턴스 방법을 사용했을 땐, resolve에 해당 */
-            const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/forecast.json?q=${cityName}&days=7&key=${API_KEY}`);
 
             if (res.status === 200) {
                 setWeatherData(res.data);
@@ -128,7 +133,7 @@ function HomePage() {
         const BASE_URL = "https://api.weatherapi.com/v1";
 
         try {
-            const res = await axios.get(`${BASE_URL}/marine.json?q=seoul&days=1&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/marine.json?q=${cityName}&days=1&key=${API_KEY}`);
 
             if (res.status === 200 && res.data) {
                 setTideData(res.data.forecast.forecastday[0]);
@@ -143,7 +148,7 @@ function HomePage() {
         const BASE_URL = "https://api.weatherapi.com/v1";
 
         try {
-            const res = await axios.get(`${BASE_URL}/forecast.json?q=seoul&days=7&key=${API_KEY}`);
+            const res = await axios.get(`${BASE_URL}/forecast.json?q=${cityName}&days=7&key=${API_KEY}`);
             console.log(res);
 
             if (res.status === 200 && res.data) {
@@ -167,7 +172,7 @@ function HomePage() {
         fetchApi();
         fetchTideApi();
         getOneWeekWeather();
-    }, []);
+    }, [cityName]);
 
     return (
         <div className="page">

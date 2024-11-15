@@ -1,6 +1,23 @@
+import { useState } from "react";
+import { useAtom } from "jotai";
+import { cityNameAtom } from "@/stores";
+
 import { SearchBar } from "@/components";
 
 function Header() {
+    const [cityName, setCityName] = useAtom(cityNameAtom);
+    const [inputValue, setInputValue] = useState<string>("");
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(event.target.value);
+    };
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            setInputValue("");
+            setCityName(inputValue);
+            console.log(cityName);
+        }
+    };
     return (
         <header className="w-full h-20 flex items-center p-6 gap-6">
             <div className="w-1/2 flex items-center justify-start gap-6 ">
@@ -12,7 +29,13 @@ function Header() {
                     <h3 className="poppins-bold scroll-m-20 text-2xl font-semibold tracking-tight">Weather.io</h3>
                 </div>
                 {/* 검색창 영역 */}
-                <SearchBar placeholder="검색할 지역 이름을 영어로 입력하세요." className="flex-1" />
+                <SearchBar
+                    placeholder="검색할 지역 이름을 영어로 입력하세요."
+                    className="flex-1"
+                    onInput={handleChange}
+                    value={inputValue}
+                    onKeyDown={handleKeyDown}
+                />
             </div>
         </header>
     );
